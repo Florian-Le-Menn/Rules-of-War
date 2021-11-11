@@ -1,0 +1,50 @@
+h3{
+	margin:5px 0;
+}
+body{
+	margin:0;
+	padding:0;
+	overflow:hidden;
+	background:#eee;
+}
+svg{
+	background:#18424c;
+	height:2048px;
+}
+::-webkit-scrollbar { 
+    display: none; 
+}
+.svgContainer,.commandsContainer{
+	height:100vh;
+	overflow:scroll;
+}
+label,button{
+	margin:5px 0;
+}
+input{
+	margin:5px;
+}
+svg,path{
+	display:inline-block;
+	margin:0;padding:0;border:none;
+}
+button{
+	border:solid 1px #aaa;
+	border-radius:2px;
+	height:30px;
+}
+button.pressed{
+	background: linear-gradient(#a44, #600);
+	color:#ddd;
+    text-shadow:-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+table,td,th{
+	border:solid 1px #888;
+}
+table{
+	border-spacing:0;
+	padding:0;
+}
+td,th{
+	padding:2px;
+}
