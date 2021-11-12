@@ -1,143 +1,208 @@
-var tour=1;
-var eventGiveTerritory = function() {
-	$(this).attr('style','fill:'.concat(statesList[$("#bnReceiver").text()].color));
-	nbToGive-=1;
-	if(nbToGive==0){
+let turn = 1;
+
+/**
+ * Listener binded to all givable territories when the user has to select some
+ * 
+ * Give the selected territory from the donor to the receiver
+ */
+let eventGiveTerritory = function () {
+	$(this).attr('style', 'fill:'.concat(countryList[$("#btn-country-receiver").text()].color));
+	nbToGive--;
+	if (nbToGive == 0) {
 		$("#notice").text("");
-		$("#bnDonator").prop("disabled",false);
-		$("#bnReceiver").prop("disabled",false);
+		$("#btn-country-donator").prop("disabled", false);
+		$("#btn-country-receiver").prop("disabled", false);
 		// Cancelling the listener
 		$(".givable").unbind("click.givable");
-		$(".givable").each(function(){
+		$(".givable").each(function () {
 			$(this).removeClass("givable");
 		});
-	}else{
-		$("#notice").text("Sélectionnez "+nbToGive+" territoires de "+$("#bnDonator").text()+" a donner à "+$("#bnReceiver").text());
+	} else {
+		let territories = nbToGive == 1 ? " territory" : " territories";
+		$("#notice").text("Select " + nbToGive + territories + " from " + $("#btn-country-donator").text() + " to give to " + $("#btn-country-receiver").text());
 	}
 };
 
-$(function(){
-	//charger();
-	State.initialize();
-	//iniColors();
-	$("#bnAttack").click(function(){
-		var atk = statesList[$("#bnPaysAtk").text()];
-		var def = statesList[$("#bnPaysDef").text()];
-		if(atk.player==false){
-			atk.army+=20000
-			atk.player=true;
+function listeners() {
+	/**
+	 * Listener on the button to start a battle
+	 */
+	$("#btn-battle").click(function () {
+		let atk = countryList[$("#btn-country-attacker").text()];
+		let def = countryList[$("#btn-country-defender").text()];
+		if (atk.player == false) {
+			atk.army += 20000
+			atk.player = true;
 		}
-		atk.tryAttack(def,$("#perc").val());
-		actualiserInfos();
+		atk.tryAttack(def, $("#perc").val());
+		refreshInformations();
 	});
-	$("#bnInfoOk").click(function(){
-		if($("#stateField").val()=="general"){
-			str="Liste des pays :\n";
-			for(var stateName in statesList){
-				var state=statesList[stateName];
-				str+=state.toString();
+
+	/**
+	 * Listener on the button 'information'
+	 * 
+	 * Writes the informations about a country in the consoloe
+	 * 
+	 * TODO + Write the information in a more user friendly are
+	 *		+ Find a way to allow again to display general and 'all players' informations
+	 **/
+	$("#btn-country-informations").click(function () {
+		if ($("#country-field").text() == "general") {
+			str = "Country list :\n";
+			for (let countryName in countryList) {
+				let country = countryList[countryName];
+				str += country.toString();
 			}
 			console.log(str);
-		}else if($("#stateField").val()=="joueurs"){
-			str="Liste des joueurs :\n";
-			for(var stateName in statesList){
-				var state=statesList[stateName];
-				if(state.player){
-					str+=state.toString();
+		} else if ($("#country-field").text() == "joueurs") {
+			str = "Player list :\n";
+			for (let countryName in countryList) {
+				let country = countryList[countryName];
+				if (country.player) {
+					str += country.toString();
 				}
 			}
 			console.log(str);
-		}else if(State.exist($("#stateField").val())){
-			console.log(statesList[$("#stateField").val()]);
+		} else if (Country.exist($("#country-field").text())) {
+			console.log(countryList[$("#country-field").text()]);
 		}
 	});
-	
-	$("#bnFin").click(function(){
-		tour+=1;
-		$("#tour").text("TOUR "+tour);
+
+	/**
+	 * Listener on the 'end of turn' button
+	 */
+	$("#btn-end-turn").click(function () {
+		turn += 1;
+		$("#turn").text("TURN " + turn);
 		newTurn();
-		actualiserInfos();
+		refreshInformations();
 	});
-	$("button.pressable").each(function(){
-		$(this).click(function(){
-			if($(this).hasClass("pressed")){
+
+	/**
+	 * Add or remove the 'pressed' class on the 'pressable' buttons on which we click
+	 * 
+	 * useful to change style depending on the state of the button
+	 */
+	$("button.pressable").each(function () {
+		$(this).click(function () {
+			if ($(this).hasClass("pressed")) {
 				$(this).removeClass("pressed");
-			}else{
+			} else {
 				$("button.pressable").removeClass("pressed");
 				$(this).addClass("pressed");
 			}
 		});
 	});
-	$("#infoPlayer").click(function(){
-		var stateName=$("#stateField").text();
-		var state=statesList[stateName];
-		state.player=!state.player;
-		$("#infoPlayer").text(state.player);
+
+	/**
+	 * Listener on the 'information player' field (on click)
+	 * 
+	 * Change the country from NPC to Player or vice versa
+	 */
+	$("#information-player").click(function () {
+		let countryName = $("#country-field").text();
+		let country = countryList[countryName];
+		country.player = !country.player;
+		$("#information-player").text(country.player);
 	});
-	$("#bnDownload").click(function(){
-		download(State.saveList(),"load.js","");
+
+	/**
+	 * Listener on the save button
+	 * 
+	 * TODO check if it works
+	 * 
+	 */
+	$("#btn-save").click(function () {
+		download(Country.saveList(), "load.js", "");
 	});
-	$("#bnImg").click(function() {
-		
+
+	/**
+	 * Listener on the 'Download PNG' button
+	 * 
+	 * TODO Fix it (broken)
+	 */
+	$("#btn-download-image").click(function () {
+
 		//load a svg snippet in the canvas with id = 'drawingArea'
 		canvg(document.getElementById('canvas'), $("#svg").wrap("<p/>").parent().html());
 		$("#svg").unwrap();
 		// the canvas calls to output a png
-		var canvas = document.getElementById("canvas");
-		var img = canvas.toDataURL("image/png");
+		let canvas = document.getElementById("canvas");
+		let img = canvas.toDataURL("image/png");
 		downloadCanvas();
 	});
-	function downloadImage(){
-	document.getElementById('download').click();
+
+
+	function downloadImage() {
+		document.getElementById('download').click();
 	}
 
-	function downloadCanvas(){
-	var a = document.getElementById('download');
-	var b = a.href;
-	a.href = document.getElementsByTagName('canvas')[0].toDataURL();
-	downloadImage();
-	a.href = b;
+	function downloadCanvas() {
+		let a = document.getElementById('download');
+		let b = a.href;
+		a.href = document.getElementsByTagName('canvas')[0].toDataURL();
+		downloadImage();
+		a.href = b;
 	}
-	$("path").each(function(){
-		$(this).click(function(){
-			var fillPos=$(this).attr("style").indexOf("fill:");
-			var stateName=State.findNameByColor($(this).attr("style").substring(fillPos+5,fillPos+12));
-			var state=statesList[stateName];
-			$("#stateField").val(stateName);
-			actualiserInfos();
-			
-			$("button.pressed").text(stateName);
+
+	/**
+	 * Listener on the territories
+	 * 
+	 * Display the country informations
+	 * If a button is pressed (waiting for a country to be selected), select the country
+	 */
+	$("path").each(function () {
+		$(this).click(function () {
+			let fillPos = $(this).attr("style").indexOf("fill:");
+			let countryName = Country.findNameByColor($(this).attr("style").substring(fillPos + 5, fillPos + 12));
+			let country = countryList[countryName];
+			$("#country-field").text(countryName);
+			refreshInformations();
+
+			$("button.pressed").text(countryName);
 		});
 	});
-	$("#bnRefresh").click(function(){
-		actualiserInfos();
+
+	/**
+	 * Listener on the 'Refresh' button
+	 * 
+	 * TODO Check if it's still doing something useful 
+	 */
+	$("#btn-refresh-informations").click(function () {
+		refreshInformations();
 	});
-	$("#bnDon").click(function(){
-		var donator = statesList[$("#bnDonator").text()];
-		var receiver = statesList[$("#bnReceiver").text()];
-		var amountArmy = parseInt($("#nbDonArmy").val());
-		var amountTerritory = parseInt($("#nbDonTerritory").val());
-		if(amountArmy>0){
-			donator.donateArmy(receiver,amountArmy);
+
+	/**
+	 * Listener on the donation button
+	 * 
+	 * TODO check if the calculs are good
+	 */
+	$("#btn-donation").click(function () {
+		let donator = countryList[$("#btn-country-donator").text()];
+		let receiver = countryList[$("#btn-country-receiver").text()];
+		let amountArmy = parseInt($("#soldiers-amount-donation").val());
+		let amountTerritory = parseInt($("#territories-amount-donation").val());
+		if (amountArmy > 0) {
+			donator.donateArmy(receiver, amountArmy);
 		}
-		if(amountTerritory>0){
-			donator.donateTerritory(receiver,amountTerritory);
+		if (amountTerritory > 0) {
+			donator.donateTerritory(receiver, amountTerritory);
 		}
-		actualiserInfos();
+		refreshInformations();
 	});
-	
-	window.onbeforeunload = function() {
-	  return "Data will be lost if you leave the page, are you sure?";
-	};
-	$("#copyClipboardPlayers").click(function(){
-		var str="Liste des joueurs :\n";
-		for(var stateName in statesList){
-			var state=statesList[stateName];
-			if(state.player){
-				str+=state.toString();
+
+	/**
+	 * Copy the informations of the players (in order to paste it directly in a messsage)
+	 */
+	$("#copy-clipboard-players-informations").click(function () {
+		let str = "Player list :\n";
+		for (let countryName in countryList) {
+			let country = countryList[countryName];
+			if (country.player) {
+				str += country.toString();
 			}
 		}
-		var textArea = document.createElement("textarea");
+		let textArea = document.createElement("textarea");
 
 		textArea.value = str;
 
@@ -148,13 +213,17 @@ $(function(){
 
 		document.body.removeChild(textArea);
 	});
-	$("#copyClipboardGeneral").click(function(){
-		var str="Liste des joueurs :\n";
-		for(var stateName in statesList){
-			var state=statesList[stateName];
-			str+=state.toString();
+
+	/**
+	 * Copy the informations of every countries (in order to paste it directly in a messsage)
+	 */
+	$("#copy-clipboard-general-informations").click(function () {
+		let str = "Country list :\n";
+		for (let countryName in countryList) {
+			let country = countryList[countryName];
+			str += country.toString();
 		}
-		var textArea = document.createElement("textarea");
+		let textArea = document.createElement("textarea");
 
 		textArea.value = str;
 
@@ -165,16 +234,41 @@ $(function(){
 
 		document.body.removeChild(textArea);
 	});
-	$("#bnInvertAtk").click(function(){
-		var tmp=$("#bnAtk").text();
-		$("#bnAtk").text($("#bnDef").text());
-		$("#bnDef").text(tmp);
+
+	/**
+	 * Invert the attacker and the defender (useful if wrongly picked or if two players are fighting)
+	 */
+	$("#btn-invert-attack").click(function () {
+		let tmp = $("#btn-country-attacker").text();
+		$("#btn-country-attacking").text($("#btn-country-defender").text());
+		$("#btn-country-defender").text(tmp);
 	});
-	$("#bnInvertDon").click(function(){
-		var tmp=$("#bnDonator").text();
-		$("#bnDonator").text($("#bnReceiver").text());
-		$("#bnReceiver").text(tmp);
+
+	/**
+	 * Invert the donor and the receiver (useful if a wrong donation has been made)
+	 */
+	$("#btn-invert-donation").click(function () {
+		let tmp = $("#btn-country-donator").text();
+		$("#btn-country-donator").text($("#btn-country-receiver").text());
+		$("#btn-country-receiver").text(tmp);
 	});
+}
+
+$(function () {
+	//charger();
+	Country.initialize();
+	iniColors();
+	listeners();
+
+	/**
+	 * Display a warning message when we reload the page, in order to not lose the game by accident
+	 */
+	/* TODO Uncomment
+		window.onbeforeunload = function () {
+			return "Data will be lost if you leave the page, are you sure?";
+		}; */
+
+
 });
 
 
