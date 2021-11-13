@@ -2,7 +2,7 @@
 	/********************************************************************************************************************************/
 	/************************************************************ GENERAL ***********************************************************/
 	/********************************************************************************************************************************/
-	
+
 body{
 	margin:0;
 	padding:0;
@@ -23,6 +23,10 @@ label,button{
 input{
 	margin:5px;
 }
+
+.hidden{
+	display:none;
+}
 button{
 	border:solid 1px #aaa;
 	border-radius:2px;
@@ -39,6 +43,17 @@ button.pressed{
 	overflow:scroll;
 	border:solid #272b30;
 }
+.clickable{
+	cursor:pointer!important;
+	-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Safari */
+		-khtml-user-select: none; /* Konqueror HTML */
+			-moz-user-select: none; /* Old versions of Firefox */
+			-ms-user-select: none; /* Internet Explorer/Edge */
+				user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Edge, Opera and Firefox */
+	  
+}
 
 	/********************************************************************************************************************************/
 	/******************************************************** COMMANDS PANEL ********************************************************/
@@ -54,23 +69,107 @@ button.pressed{
 }
 .commands-container{
 	background: linear-gradient(100deg, #e2e2e2,#c2c2c2);
+	padding:0;
+	min-width:300px;
 }
 .commands-set{
-	padding:10px;
 	border-bottom:solid #222;
 }
-.commands-set h4{
+.commands-set .commands-title{
+	padding:10px 10px 5px 10px;
 	font-weight:600;
 	font-size:1.4em;
-	padding:0;
 	margin:0;
 }
-.commands-set hr{
-	margin:5px 0;
-	padding:0;
-	border-color:black;
+.commands-set .commands-title:hover{
+	color:white;
+	background: linear-gradient(140deg,#555,#343a40);
 }
-.interactive:hover{
-	color:#600;
-	cursor:pointer;
+.content-set{
+	border-top:solid 1px #343a40;
+}
+
+	/******************************************************** BATTLES COMMANDS ********************************************************/
+
+.battle-row{
+	display:flex;
+	align-content:stretch;
+	height:48px;
+}
+.slider-row{
+	display:flex;
+	height:64px;
+}
+.slider-cell{
+	display:inline-flex;
+	flex-basis:80%;
+}
+.slider-cell>div{
+	margin:22px 14px;
+}
+#battles-content .filled-cell{
+	background-color:#343a40;
+}
+
+#battles-content .legend, #battles-content .selector{
+	display:inline-flex;
+	flex-basis: 40%;
+	border: solid 1px #343a40;
+    justify-content: center;
+	font-size:1.2em;
+	color:white;
+	text-shadow: #343a40 1px 0 10px;
+	font-weight:600;
+	text-align: center;
+	line-height:48px;
+}
+#battles-content .legend{
+	line-height:48px;
+}
+#attacker-legend{
+	background:linear-gradient(140deg, rgb(196, 31, 31),rgb(129, 14, 14));
+}
+#defender-legend{
+	background:linear-gradient(140deg, rgb(31, 97, 196),rgb(14, 60, 129));
+}
+#attacker-selector{
+	background: linear-gradient(140deg, rgb(211, 144, 144),rgb(175, 57, 57));
+}
+#defender-selector{
+	background:linear-gradient(140deg, rgb(140, 176, 229),rgb(68, 103, 155));
+}
+
+/** Selectors **/
+#battles-content .selector:hover{
+	padding:1px 0 0 1px;
+	box-shadow: inset 1px 1px 4px black;
+}
+#battles-content .selector.pressed{
+	box-shadow: inset 3px 3px 8px black;
+    padding: 3px 0 0 3px;
+}
+
+/** Buttons **/
+
+#battles-content .button-cell, #battles-content .filled-cell{
+	display:inline-flex;
+	flex-basis: 20%;
+	border: solid 1px #343a40;
+}
+#battles-content .button-cell:hover{
+	padding:8px 0 0 1px;
+	box-shadow: inset 1px 1px 4px black;
+}
+#battles-content .button-cell>img{
+	display:block;
+    margin: auto;
+}
+
+#strength-slider-handle {
+  width: 3em;
+  height: 1.6em;
+  top: 50%;
+  margin-top: -.8em;
+  text-align: center;
+  line-height: 1.6em;
 }

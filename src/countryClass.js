@@ -5,11 +5,18 @@ let nbCountries = 0;
  * Represents a country
  */
 class Country {
-	constructor(name, army, population, territory, color = null, player = false, turn = 100, wars = []) {
+	static turn = 1;
+
+	constructor(name, army, population, territory, color = null, shortName = null, player = false, turn = 100, wars = []) {
 		countryList[name] = this;
 		nbCountries += 1;
 		this.wars = wars;
 		this.name = name;
+		if (shortName == null) {
+			this.shortName = name.substr(0, 12);
+		} else {
+			this.shortName = shortName;
+		}
 		this.army = army;
 		this.population = population;
 		this.territory = territory;
@@ -92,7 +99,8 @@ class Country {
 	 * @param {*} perc 
 	 */
 	tryAttack(enemy, perc) {
-		let listConq = VanquishedTerritoriesByDistance(this, enemy);
+		if (this == enemy) return;
+		let listConq = capturableTerritoriesByDistance(this, enemy);
 		if (enemy.army == 0 && enemy.territory > 0) {
 			let nbTerWon = enemy.territory;
 			this.territory += enemy.territory;
@@ -192,6 +200,19 @@ class Country {
 	}
 
 	/**
+	 * @param {String} color
+	 * @returns {Country} Country associated with the given color. Returns null if no country has this color.
+	 */
+	static findByColor(color) {
+		for (let countryName in countryList) {
+			if (countryList[countryName].color == color) {
+				return countryList[countryName];
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * For each non-played country, makes it do its battle with the countries with which it is at war
 	 */
 	static manageWars() {
@@ -242,9 +263,9 @@ class Country {
 		new Country("Pays-Bas", 35410, 17235500, 13, "#dc8a39");
 		new Country("Pologne", 99300, 38422346, 33, "#df7ddf");
 		new Country("Portugal", 29600, 10291027, 16, "#39a065");
-		new Country("République Tchèque", 21950, 10613350, 9, "#e45255");
+		new Country("République Tchèque", 21950, 10613350, 9, "#e45255", "Rép.Tchèque");
 		new Country("Roumanie", 70500, 19638000, 23, "#889d17");
-		new Country("Royaume-Uni", 152350, 66040229, 48, "#8d0303");
+		new Country("Royaume-Uni", 152350, 66040229, 48, "#8d0303", "R.U.");
 		new Country("Serbie", 28150, 7001444, 13, "#b65849");
 		new Country("Slovaquie", 15850, 5443120, 6, "#f1fa89");
 		new Country("Slovenie", 7250, 2066880, 3, "#c4ba00");
@@ -253,11 +274,11 @@ class Country {
 		new Country("Turquie", 355200, 80810525, 62, "#445621");
 		new Country("Ukraine", 204000, 42300723, 43, "#dcca60");
 
-		new Country("Arabie Saoudite", 227000, 33413660, 31, "#43af23");
+		new Country("Arabie Saoudite", 227000, 33413660, 31, "#43af23", "Arabie");
 		new Country("Armenie", 44800, 2972900, 3, "#ec5f00");
 		new Country("Azerbaidjan", 66950, 9898085, 11, "#5e9742");
 		new Country("Bahrein", 8200, 1451200, 1, "#14351b");
-		new Country("Emirats Arabes Unis", 63000, 9541615, 3, "#ff577f");
+		new Country("Emirats Arabes Unis", 63000, 9541615, 3, "#ff577f", "E.A.U.");
 		new Country("Georgie", 20650, 3729600, 11, "#d79595");
 		new Country("Irak", 64000, 39339753, 13, "#c04555");
 		new Country("Iran", 523000, 81598700, 47, "#037500");
@@ -291,7 +312,7 @@ class Country {
 		let str = "function charger(){\n";
 		for (let countryName in countryList) {
 			let country = countryList[countryName];
-			str += "new Country('" + countryName + "'," + country.army + "," + country.population + "," + country.territory + ",'" + country.color + "'," + country.player + "," + country.turn + ",[";
+			str += "new Country('" + countryName + "'," + country.army + "," + country.population + "," + country.territory + ",'" + country.color + "','" + country.shortName + "'," + country.player + "," + country.turn + ",[";
 			for (let enemyName of country.wars) {
 				str += "'" + enemyName + "',";
 			}

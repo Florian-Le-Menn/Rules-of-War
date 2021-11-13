@@ -3346,22 +3346,35 @@
          <h3 id="turn">TURN 1</h3>
 
          <div id="battles" class="commands-set">
-            <h4 class="interactive"><img src="ressources/icons/swords.png" /> BATTLES</h4>
-            <div class="hidable">
-               <hr />
-               <button id="btn-country-attacker" class="pressable">[Attacker]</button>
-               <button id="btn-country-defender" class="pressable">[Defender]</button>
-               <button id="btn-invert-attack">Invert</button><br />
-               <label>Percentage</label><input type="text" id="perc" value="100" /><br />
-               <button id="btn-battle">Battle</button>
+            <h4 id="battles-title" class="clickable commands-title"><img src="ressources/icons/swords.png" /> BATTLES
+            </h4>
+            <div id="battles-content" class="content-set">
+               <div class="battle-row">
+                  <div class="legend" id="attacker-legend"><span>Attacker</span></div>
+                  <div class="legend" id="defender-legend"><span>Defender</span></div>
+                  <div class="filled-cell"></div>
+               </div>
+               <div class="battle-row">
+                  <div class="selector clickable" id="attacker-selector"><span>Attacker</span></div>
+                  <div class="selector clickable" id="defender-selector"><span>Defender</span></div>
+                  <div class="button-cell clickable" id="swap-button"><img src="ressources/icons/switch.png"></div>
+               </div>
+               <div class="slider-row">
+                  <div class="slider-cell">
+                     <div id="strength-slider" class="col-9">
+                        <div id="strength-slider-handle" class="ui-slider-handle clickable"></div>
+                     </div>
+                  </div>
+                  <div class="button-cell clickable" id="battle-button"><img src="ressources/icons/swords.png"></div>
+               </div>
             </div>
          </div>
 
          <div id="informations" class="commands-set">
-            <h4 class="interactive"><img src="ressources/icons/notebook.png" /> INFORMATIONS</h4>
-            <div class="hidable">
-               <hr />
-               <h4 id="country-field"></h4>
+            <h4 id="informations-title" class="clickable commands-title"><img src="ressources/icons/notebook.png" />
+               INFORMATIONS</h4>
+            <div id="informations-content" class="content-set">
+               <h5 id="country-field"></h5>
                <button id="btn-country-informations">Informations</button><button
                   id="btn-refresh-informations">Refresh</button>
                <div id="country-informations">
@@ -3387,13 +3400,13 @@
             </div>
          </div>
          <div id="donation" class="commands-set">
-            <h4 class="interactive"><img src="ressources/icons/donation.png" />DONATIONS</h4>
-            <div class="hidable">
-               <hr />
+            <h4 id="donations-title" class="clickable commands-title"><img src="ressources/icons/donation.png" />
+               DONATIONS</h4>
+            <div id="donations-content" class="content-set">
                <p id="notice" style="color:red;font-weight:bold;"></p>
-               <button id="btn-country-donator" class="pressable">[Donor]</button>
-               <button id="btn-country-receiver" class="pressable">[Receiver]</button>
-               <button id="btn-invert-donation">Inverser</button><br />
+               <button id="btn-country-donator" class="selector">[Donor]</button>
+               <button id="btn-country-receiver" class="selector">[Receiver]</button>
+               <button id="btn-invert-donation">Swap</button><br />
                <label>Amount of soldiers</label><input type="text" id="soldiers-amount-donation" /><br />
                <label>Amount of territories</label><input type="text" id="territories-amount-donation" /><br />
                <input type="checkbox" id="cb-no-population-donation" /><label>Without population donation</label><br />
@@ -3415,12 +3428,10 @@
    <canvas height="1024" hidden id="canvas"></canvas>
 
    <!-- jQuery -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+   <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 
    <!-- Javascript plugin for bootstrap -->
-   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
       crossorigin="anonymous"></script>
@@ -3436,9 +3447,12 @@
     ----------------------------------------- -->
 
    <!-- Custom JS files-->
+   <script src="src/getters-setters.js"></script>
    <script src="src/countryClass.js"></script>
-   <script src="src/func.js"></script>
+   <script src="src/back-end.js"></script>
+   <script src="src/listeners.js"></script>
    <script src="src/main.js"></script>
+   <script src="src/interactions.js"></script>
 </body>
 
 </html>

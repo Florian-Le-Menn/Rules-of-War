@@ -22,14 +22,14 @@ function color(victor, nb, capturableTerritories) {
 }
 
 /**
- * Return a list of vanquished territories sorted by distance to the victor closest territories
+ * Return a list of capturable territories from {vanquished} sorted by distance to {victor}'s closest territories
  * 
  * @param {Country} victor : Victorious country
  * @param {Country} vanquished : Defeated country
  * 
  * @returns {List<int,Path>} capturableTerritories : List of territories(and their distance) of the defeated country sorted by distance to the victorious country
  */
-function VanquishedTerritoriesByDistance(victor, vanquished) {
+function capturableTerritoriesByDistance(victor, vanquished) {
 	let victorColor = victor.color;
 	let vanquishedColor = vanquished.color;
 	let victorTerritories = [];
@@ -216,6 +216,7 @@ function iniColors() {
  * + Increase the populaton size. TODO improve the equation to make it more realistic
  */
 function newTurn() {
+	Country.turn++;
 	Country.manageWars();
 	for (let key in countryList) {
 		country = countryList[key];
