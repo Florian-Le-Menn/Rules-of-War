@@ -54,6 +54,9 @@ button.pressed{
 									supported by Chrome, Edge, Opera and Firefox */
 	  
 }
+.black-filter{
+	background-color:rgba(0,0,0,0.3);
+}
 
 	/********************************************************************************************************************************/
 	/******************************************************** COMMANDS PANEL ********************************************************/
@@ -172,4 +175,39 @@ button.pressed{
   margin-top: -.8em;
   text-align: center;
   line-height: 1.6em;
+}
+
+	/***************************************************** INFORMATIONS COMMANDS ******************************************************/
+
+#informations-content{
+	background-size:cover;
+	color: white;
+}
+#informations-content *{
+	color:white;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+#country-field{
+	padding:5px 0 5px 10px;
+	background:linear-gradient(140deg, rgba(0,0,0,1),rgba(0,0,0,0.05),rgba(0,0,0,0));
+	margin:-1px 0 0 0;
+}
+#informations-content .custom-row{
+	display:flex;
+	align-content:stretch;
+} 
+#informations-content .custom-cell{
+	display: inline-flex;
+	flex-basis: 50%;
+	border:solid 1px black;
+	font-weight:500;
+	font-size:1.2em;
+	padding:5px;
+} 
+#icon-is-player{
+    float: right;
+    margin: 3px 5px;
+}
+#country-informations img{
+	margin-right:5px;
 }

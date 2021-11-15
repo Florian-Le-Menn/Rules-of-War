@@ -3374,34 +3374,32 @@
             <h4 id="informations-title" class="clickable commands-title"><img src="ressources/icons/notebook.png" />
                INFORMATIONS</h4>
             <div id="informations-content" class="content-set">
-               <h5 id="country-field"></h5>
-               <button id="btn-country-informations">Informations</button><button
-                  id="btn-refresh-informations">Refresh</button>
-               <div id="country-informations">
-                  <table>
-                     <tr>
-                        <th>Population</th>
-                        <td id="information-population"></td>
-                     </tr>
-                     <tr>
-                        <th>Army</th>
-                        <td id="information-army"></td>
-                     </tr>
-                     <tr>
-                        <th>Territories</th>
-                        <td id="information-territories"></td>
-                     </tr>
-                     <tr>
-                        <th>Player</th>
-                        <td id="information-player"></td>
-                     </tr>
-                  </table>
+               <div class="black-filter">
+                  <h4 id="country-field"><span id="country-field-name">France</span><img
+                        src="ressources/icons/computer-24.png" id="icon-is-player"></h4>
+                  <!--  <button id="btn-country-informations">Informations</button><button
+                  id="btn-refresh-informations">Refresh</button>-->
+                  <div id="country-informations">
+                     <div class="custom-row">
+                        <div class="custom-cell"><img src="ressources/icons/people-24.png" />Population
+                        </div>
+                        <div class="custom-cell" id="information-population"></div>
+                     </div>
+                     <div class="custom-row">
+                        <div class="custom-cell"><img src="ressources/icons/soldier-24.png" />Army</div>
+                        <div class="custom-cell" id="information-army"></div>
+                     </div>
+                     <div class="custom-row">
+                        <div class="custom-cell"><img src="ressources/icons/territory-24.png" />Territories</div>
+                        <div class="custom-cell" id="information-territories"></div>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>
          <div id="donation" class="commands-set">
             <h4 id="donations-title" class="clickable commands-title"><img src="ressources/icons/donation.png" />
-               DONATIONS</h4>
+               TRADES</h4>
             <div id="donations-content" class="content-set">
                <p id="notice" style="color:red;font-weight:bold;"></p>
                <button id="btn-country-donator" class="selector">[Donor]</button>
@@ -3447,12 +3445,13 @@
     ----------------------------------------- -->
 
    <!-- Custom JS files-->
-   <script src="src/getters-setters.js"></script>
    <script src="src/countryClass.js"></script>
+   <script src="src/getters-setters.js"></script>
    <script src="src/back-end.js"></script>
+   <script src="src/core-ui.js"></script>
+   <script src="src/side-ui.js"></script>
    <script src="src/listeners.js"></script>
    <script src="src/main.js"></script>
-   <script src="src/interactions.js"></script>
 </body>
 
 </html>

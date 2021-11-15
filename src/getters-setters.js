@@ -22,7 +22,7 @@ function setAttacker(country = null) {
 function getAttacker() {
     let countryName = $("#attacker-selector").attr("country");
     if (Country.exist(countryName)) {
-        return countryList[countryName];
+        return Country.countryList[countryName];
     } else {
         return null;
     }
@@ -49,7 +49,7 @@ function setDefender(country = null) {
 function getDefender() {
     let countryName = $("#defender-selector").attr("country");
     if (Country.exist(countryName)) {
-        return countryList[countryName];
+        return Country.countryList[countryName];
     } else {
         return null;
     }

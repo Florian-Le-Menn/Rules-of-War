@@ -4,7 +4,7 @@
  * Give the selected territory from the donor to the receiver
  */
 let eventGiveTerritory = function () {
-    $(this).attr('style', 'fill:'.concat(countryList[$("#btn-country-receiver").text()].color));
+    $(this).attr('style', 'fill:'.concat(Country.countryList[$("#btn-country-receiver").text()].color));
     nbToGive--;
     if (nbToGive == 0) {
         $("#notice").text("");
@@ -16,6 +16,8 @@ let eventGiveTerritory = function () {
             $(this).removeClass("givable");
         });
     } else {
+        $(this).unbind("click.givable");
+        $(this).removeClass("givable");
         let territories = nbToGive == 1 ? " territory" : " territories";
         $("#notice").text("Select " + nbToGive + territories + " from " + $("#btn-country-donator").text() + " to give to " + $("#btn-country-receiver").text());
     }
@@ -64,22 +66,22 @@ function listeners() {
     $("#btn-country-informations").click(function () {
         if ($("#country-field").text() == "general") {
             str = "Country list :\n";
-            for (let countryName in countryList) {
-                let country = countryList[countryName];
+            for (let countryName in Country.countryList) {
+                let country = Country.countryList[countryName];
                 str += country.toString();
             }
             console.log(str);
         } else if ($("#country-field").text() == "joueurs") {
             str = "Player list :\n";
-            for (let countryName in countryList) {
-                let country = countryList[countryName];
+            for (let countryName in Country.countryList) {
+                let country = Country.countryList[countryName];
                 if (country.player) {
                     str += country.toString();
                 }
             }
             console.log(str);
         } else if (Country.exist($("#country-field").text())) {
-            console.log(countryList[$("#country-field").text()]);
+            console.log(Country.countryList[$("#country-field").text()]);
         }
     });
 
@@ -116,7 +118,7 @@ function listeners() {
      */
     $("#information-player").click(function () {
         let countryName = $("#country-field").text();
-        let country = countryList[countryName];
+        let country = Country.countryList[countryName];
         country.player = !country.player;
         $("#information-player").text(country.player);
     });
@@ -170,7 +172,7 @@ function listeners() {
         $(this).click(function () {
             let fillPos = $(this).attr("style").indexOf("fill:");
             let country = Country.findByColor($(this).attr("style").substring(fillPos + 5, fillPos + 12));
-            $("#country-field").text(country.name);
+            Country.selected = country;
             refreshInformations();
             let selectorPressed = $(".selector.pressed").attr('id');
             if (selectorPressed == "attacker-selector") {
@@ -197,8 +199,8 @@ function listeners() {
      * TODO check if the calculs are good
      */
     $("#btn-donation").click(function () {
-        let donator = countryList[$("#btn-country-donator").text()];
-        let receiver = countryList[$("#btn-country-receiver").text()];
+        let donator = Country.countryList[$("#btn-country-donator").text()];
+        let receiver = Country.countryList[$("#btn-country-receiver").text()];
         let amountArmy = parseInt($("#soldiers-amount-donation").val());
         let amountTerritory = parseInt($("#territories-amount-donation").val());
         if (amountArmy > 0) {
@@ -215,8 +217,8 @@ function listeners() {
      */
     $("#copy-clipboard-players-informations").click(function () {
         let str = "Player list :\n";
-        for (let countryName in countryList) {
-            let country = countryList[countryName];
+        for (let countryName in Country.countryList) {
+            let country = Country.countryList[countryName];
             if (country.player) {
                 str += country.toString();
             }
@@ -238,8 +240,8 @@ function listeners() {
      */
     $("#copy-clipboard-general-informations").click(function () {
         let str = "Country list :\n";
-        for (let countryName in countryList) {
-            let country = countryList[countryName];
+        for (let countryName in Country.countryList) {
+            let country = Country.countryList[countryName];
             str += country.toString();
         }
         let textArea = document.createElement("textarea");

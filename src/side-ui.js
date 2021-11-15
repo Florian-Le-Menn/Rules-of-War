@@ -24,17 +24,4 @@ $(function () {
     $("#donations-title").click(function () {
         $("#donations-content").slideToggle();
     });
-
-
-    var handle = $("#strength-slider-handle");
-    $("#strength-slider").slider({
-        max: 0,
-        create: function () {
-            $(this).slider("value", 0);
-            handle.text($(this).slider("value"));
-        },
-        slide: function (event, ui) {
-            handle.text(ui.value);
-        }
-    });
 });

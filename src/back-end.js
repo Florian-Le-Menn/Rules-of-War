@@ -3,25 +3,6 @@ const ALL_TERRITORIES = document.getElementsByTagName('path');
 let nbToGive = 0;
 
 /**
- * Colors {nb} territories from {def} country to {atk} country
- * 
- * @param {Country} victor : Victorious country
- * @param {int} nb : Number of territories won by the attacker over the defender
- * @param {List<Path>} capturableTerritories : List of territories from the vanquished sorted by closest distance to the attacker.
- * 
- * @returns {int} nb : number of territories not captured (beacause the defender has less territories than the amount lost for example)
- */
-function color(victor, nb, capturableTerritories) {
-	capturableTerritories.splice(nb);
-	for (let e of capturableTerritories) {
-		e[1].setAttribute('style', 'fill:'.concat(victor.color));
-	}
-	let lisLen = capturableTerritories.length;
-	nb -= lisLen;
-	return nb;
-}
-
-/**
  * Return a list of capturable territories from {vanquished} sorted by distance to {victor}'s closest territories
  * 
  * @param {Country} victor : Victorious country
@@ -68,146 +49,6 @@ function capturableTerritoriesByDistance(victor, vanquished) {
 }
 
 /**
- * Replace the territories color with the new decided color for each country 
- * 
- * Beware to not chose an already existing color for a country, or it will merge both countries
- */
-function iniColors() {
-	for (i = 0; i < ALL_TERRITORIES.length; i++) {
-		switch (ALL_TERRITORIES[i].getAttribute('style').substring(0, 12)) {
-			case 'fill:#061a80':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["albanie"].color));
-				break;
-			case 'fill:#5b8d80':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["grece"].color));
-				break;
-			case 'fill:#f42400':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["turquie"].color));
-				break;
-			case 'fill:#f42400':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["chypre"].color));
-				break;
-			case 'fill:#2ab980':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["bulgarie"].color));
-				break;
-			case 'fill:#927c00':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["macedoine"].color));
-				break;
-			case 'fill:#7a1200':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["kosovo"].color));
-				break;
-			case 'fill:#a4cb80':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["montenegro"].color));
-				break;
-			case 'fill:#d59f80':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["serbie"].color));
-				break;
-			case 'fill:#c96a80':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["roumanie"].color));
-				break;
-			case 'fill:#9eb100':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["moldavie"].color));
-				break;
-			case 'fill:#fa3e80':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["ukraine"].color));
-				break;
-			case 'fill:#1e8480':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["bielorussie"].color));
-				break;
-			case 'fill:#864700':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["lituanie"].color));
-				break;
-			case 'fill:#802c80':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["lettonie"].color));
-				break;
-			case 'fill:#493e00':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["estonie"].color));
-				break;
-			case 'fill:#4f5880':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["finlande"].color));
-				break;
-			case 'fill:#e7ef00':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["suede"].color));
-				break;
-			case 'fill:#aae600':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["norvege"].color));
-				break;
-			case 'fill:#b71b00':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["pologne"].color));
-				break;
-			case 'fill:#dbba00':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["slovaquie"].color));
-				break;
-			case 'fill:#61a800':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["hongrie"].color));
-				break;
-			case 'fill:#c35000':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["republique_tcheque"].color));
-				break;
-			case 'fill:#124f80':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["autriche"].color));
-				break;
-			case 'fill:#36ee80':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["croatie"].color));
-				break;
-			case 'fill:#249f00':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["bosnie"].color));
-				break;
-			case 'fill:#e1d480':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["slovenie"].color));
-				break;
-			case 'fill:#73f780':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["italie"].color));
-				break;
-			case 'fill:#ee0980':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["suisse"].color));
-				break;
-			case 'fill:#0c3500':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["allemagne"].color));
-				break;
-			case 'fill:#3d0900':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["danemark"].color));
-				break;
-			case 'fill:#b10080':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["pays_bas"].color));
-				break;
-			case 'fill:#186a00':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["belgique"].color));
-				break;
-			case 'fill:#8c6180':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["luxembourg"].color));
-				break;
-			case 'fill:#557300':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["france"].color));
-				break;
-			case 'fill:#432380':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["espagne"].color));
-				break;
-			case 'fill:#bd3580':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["portugal"].color));
-				break;
-			case 'fill:#cf8500':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["royaume_uni"].color));
-				break;
-			case 'fill:#67c280':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["irlande"].color));
-				break;
-			case 'fill:#6ddd00':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["islande"].color));
-				break;
-			case 'fill:#30d400':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["chypre"].color));
-				break;
-			case 'fill:#989680':
-				ALL_TERRITORIES[i].setAttribute('style', 'fill:'.concat(countryList["malte"].color));
-				break;
-			default:
-				break;
-		}
-	}
-}
-
-/**
  * End the current turn and start the next one.
  * 
  * + Make the computer-played countries that are at war do their battles
@@ -218,48 +59,37 @@ function iniColors() {
 function newTurn() {
 	Country.turn++;
 	Country.manageWars();
-	for (let key in countryList) {
-		country = countryList[key];
+	for (let key in Country.countryList) {
+		country = Country.countryList[key];
 		country.turn = 100;
-		country.army = parseInt(country.army + country.population / 2000);
-		country.population = parseInt(country.population * 1.1);
+		country.army += parseInt((country.population / 50 - country.army) * (country.population / 50 + country.army) / 50000000);
+		let populationDividedBy1million = country.population / 1000000;
+		/* asymptote : 2*territory *1'000'000
+			  example for 100 territory:
+			  asymptote = 200'000'000
+			biggest growth when population = 100'000'000, smallest when it is near 0 or 200'000'000, ans loses population if it is beyond 200'000'000
+			  cf.  f(x)=(2*100-x)*x*200  
+			  The remaining *200 is a coefficient added to reach a desired credible population growth
+			*/
+		country.population += parseInt((2 * country.territory - populationDividedBy1million) * populationDividedBy1million * 200);
 	};
 }
 
 /**
- * Allows the user to select {nb} territories from {donator} to give to {receiver}
  * 
- * @param {Country} donor 
- * @param {Country} receiver 
- * @param {int} nb 
+ * @param {int} number 
+ * @returns {String} number formated like "10'000'000"
  */
-function selectTerritoryDonation(donor, receiver, nb) {
-	$("#btn-country-donator").prop("disabled", true);
-	$("#btn-country-receiver").prop("disabled", true);
-	$("#btn-country-donator").removeClass("pressed");
-	$("#btn-country-receiver").removeClass("pressed");
-	nbToGive = nb;
-	let territories = nbToGive == 1 ? " territory" : " territories";
-	$("#notice").text("Select " + nbToGive + territories + " from " + donor.name + " to give to " + receiver.name);
-	$("path").each(function () {
-		if ($(this).attr('style').substring(5, 12) == donor.color) {
-			$(this).addClass("givable");
-		}
-	});
-	$(".givable").bind("click.givable", eventGiveTerritory);
-}
-
-/**
- * Refresh the displayed informations about the selected country
- */
-function refreshInformations() {
-	if (Country.exist($("#country-field").text())) {
-		let country = countryList[$("#country-field").text()];
-		$("#information-population").text(country.population);
-		$("#information-army").text(country.army);
-		$("#information-territories").text(country.territory);
-		$("#information-player").text(country.player);
+function FormatNumberDisplayable(number) {
+	if (number < 1000 && number > -1000) return number;
+	number = "" + number;
+	let ptr = number.length;
+	while (ptr > 0) {
+		ptr -= 3;
+		if (ptr <= 0) break;
+		number = number.slice(0, ptr) + "'" + number.slice(ptr);
 	}
+	return number;
 }
 
 /**
