@@ -1,3 +1,20 @@
+function lockSelectors() {
+    $(".selector").each(function () {
+        $(this).removeClass("pressed");
+        $(this).removeClass("clickable");
+    });
+}
+function unlockSelectors() {
+    $(".selector").each(function () {
+        $(this).addClass("clickable");
+    });
+}
+function clearTradeRequest() {
+    $("#population-amount-trade").val("")
+    $("#soldiers-amount-trade").val("");
+    $("#territories-amount-trade").val("");
+    lockConfirmTradeButton();
+}
 
 /**
  * Refresh the displayed informations about the selected country
@@ -45,15 +62,16 @@ function color(victor, nb, capturableTerritories) {
  * @param {int} nb 
  */
 function selectTerritoryDonation(donor, receiver, nb) {
-    $("#btn-country-donator").prop("disabled", true);
-    $("#btn-country-receiver").prop("disabled", true);
-    $("#btn-country-donator").removeClass("pressed");
-    $("#btn-country-receiver").removeClass("pressed");
+    lockSelectors();
     nbToGive = nb;
     let territories = nbToGive == 1 ? " territory" : " territories";
+    $("#notice").show();
     $("#notice").text("Select " + nbToGive + territories + " from " + donor.name + " to give to " + receiver.name);
     $("path").each(function () {
-        if ($(this).attr('style').substring(5, 12) == donor.color) {
+        let style = $(this).attr('style');
+        let ifill = style.indexOf("fill:");
+
+        if (style.substring(ifill + 5, ifill + 12) == donor.color) {
             $(this).addClass("givable");
         }
     });

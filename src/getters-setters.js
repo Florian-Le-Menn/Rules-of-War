@@ -54,6 +54,61 @@ function getDefender() {
         return null;
     }
 }
+/**
+ * sets the donor country.
+ * 
+ * @param {Country} country 
+ */
+function setDonor(country = null) {
+    if (country == null) {
+        $("#donor-selector").text("Donor");
+        $("#donor-selector").attr("country", null);
+    } else {
+        $("#donor-selector").text(country.shortName);
+        $("#donor-selector").attr("country", country.name);
+    }
+    checkConfirmTradeButton();
+}
+
+/**
+ * @returns the current selected donor country, or null if none is selected
+ */
+function getDonor() {
+    let countryName = $("#donor-selector").attr("country");
+    if (Country.exist(countryName)) {
+        return Country.countryList[countryName];
+    } else {
+        return null;
+    }
+}
+
+/**
+ * sets the receiver country
+ * 
+ * @param {Country} country 
+ */
+function setReceiver(country = null) {
+    if (country == null) {
+        $("#receiver-selector").text("Receiver");
+        $("#receiver-selector").attr("country", null);
+    } else {
+        $("#receiver-selector").text(country.shortName);
+        $("#receiver-selector").attr("country", country.name);
+    }
+    checkConfirmTradeButton();
+}
+
+/**
+ * @returns the current selected receiver country, or null if none is selected
+ */
+function getReceiver() {
+    let countryName = $("#receiver-selector").attr("country");
+    if (Country.exist(countryName)) {
+        return Country.countryList[countryName];
+    } else {
+        return null;
+    }
+}
 
 /**
  * 

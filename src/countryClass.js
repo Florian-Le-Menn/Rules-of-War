@@ -62,7 +62,7 @@ class Country {
 
 	/**
 	 * Gives {amount} territories from current country to {receiver} country.
-	 * If the checkbox #cb-no-population-donation isn't checked, also give a prorata of population
+	 * If the checkbox #cb-no-population-trade isn't checked, also give a prorata of population
 	 * 
 	 * @param {Country} receiver 
 	 * @param {int} nb : amount of territories to give to {receiver} country
@@ -71,7 +71,7 @@ class Country {
 		amount = Math.min(this.territory, amount);
 		this.territory -= amount;
 		receiver.territory += amount;
-		if (!$("#cb-no-population-donation").is(":checked")) {
+		if ($("#icon-link-pop").hasClass("pressed")) {
 			let populationAmount = parseInt((this.population * amount) / this.territory);
 			this.population -= populationAmount;
 			receiver.population += populationAmount;

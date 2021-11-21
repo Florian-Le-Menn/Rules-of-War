@@ -8,6 +8,21 @@ function updateSlider(value) {
     $("#strength-slider-handle").text(value);
 }
 
+function lockConfirmTradeButton() {
+    $("#confirm-trade").removeClass("clickable");
+}
+function unlockConfirmTradeButton() {
+    $("#confirm-trade").addClass("clickable");
+}
+
+
+function checkConfirmTradeButton() {
+    if (getReceiver() == null || getDonor() == null || ($("#population-amount-trade").val().length == 0 && $("#soldiers-amount-trade").val().length == 0 && $("#territories-amount-trade").val().length == 0)) {
+        lockConfirmTradeButton();
+    } else {
+        unlockConfirmTradeButton();
+    }
+}
 $(function () {
 
     /**
@@ -21,7 +36,11 @@ $(function () {
         $("#informations-content").slideToggle();
     });
 
-    $("#donations-title").click(function () {
-        $("#donations-content").slideToggle();
+    $("#trades-title").click(function () {
+        $("#trades-content").slideToggle();
+    });
+
+    $("#population-amount-trade,#soldiers-amount-trade,#territories-amount-trade").on("keyup", function () {
+        checkConfirmTradeButton();
     });
 });

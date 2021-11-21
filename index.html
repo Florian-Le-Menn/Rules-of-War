@@ -31,6 +31,7 @@
    <div id="main" style="display:flex;">
 
       <div class="map-container">
+         <p id="notice"></p>
 
          <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg"
@@ -3341,7 +3342,7 @@
 
       </div>
 
-      <div class="commands-container">
+      <div id="commands-container">
 
          <h3 id="turn">TURN 1</h3>
 
@@ -3357,7 +3358,8 @@
                <div class="battle-row">
                   <div class="selector clickable" id="attacker-selector"><span>Attacker</span></div>
                   <div class="selector clickable" id="defender-selector"><span>Defender</span></div>
-                  <div class="button-cell clickable" id="swap-button"><img src="ressources/icons/switch.png"></div>
+                  <div class="button-cell clickable" id="swap-button-battle"><img src="ressources/icons/switch.png">
+                  </div>
                </div>
                <div class="slider-row">
                   <div class="slider-cell">
@@ -3373,43 +3375,68 @@
          <div id="informations" class="commands-set">
             <h4 id="informations-title" class="clickable commands-title"><img src="ressources/icons/notebook.png" />
                INFORMATIONS</h4>
-            <div id="informations-content" class="content-set">
+            <div id="informations-content" class="content-set outline-text">
                <div class="black-filter">
                   <h4 id="country-field"><span id="country-field-name">France</span><img
                         src="ressources/icons/computer-24.png" id="icon-is-player"></h4>
-                  <!--  <button id="btn-country-informations">Informations</button><button
-                  id="btn-refresh-informations">Refresh</button>-->
                   <div id="country-informations">
                      <div class="custom-row">
-                        <div class="custom-cell"><img src="ressources/icons/people-24.png" />Population
+                        <div class="custom-cell"><img class="label-img"
+                              src="ressources/icons/people-24.png" />Population
                         </div>
                         <div class="custom-cell" id="information-population"></div>
                      </div>
                      <div class="custom-row">
-                        <div class="custom-cell"><img src="ressources/icons/soldier-24.png" />Army</div>
+                        <div class="custom-cell"><img class="label-img" src="ressources/icons/soldier-24.png" />Army
+                        </div>
                         <div class="custom-cell" id="information-army"></div>
                      </div>
                      <div class="custom-row">
-                        <div class="custom-cell"><img src="ressources/icons/territory-24.png" />Territories</div>
+                        <div class="custom-cell"><img class="label-img"
+                              src="ressources/icons/territory-24.png" />Territories</div>
                         <div class="custom-cell" id="information-territories"></div>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-         <div id="donation" class="commands-set">
-            <h4 id="donations-title" class="clickable commands-title"><img src="ressources/icons/donation.png" />
+         <div id="trades" class="commands-set">
+            <h4 id="trades-title" class="clickable commands-title"><img src="ressources/icons/donation.png" />
                TRADES</h4>
-            <div id="donations-content" class="content-set">
-               <p id="notice" style="color:red;font-weight:bold;"></p>
-               <button id="btn-country-donator" class="selector">[Donor]</button>
-               <button id="btn-country-receiver" class="selector">[Receiver]</button>
-               <button id="btn-invert-donation">Swap</button><br />
-               <label>Amount of population</label><input type="text" id="population-amount-donation" /><br />
-               <label>Amount of soldiers</label><input type="text" id="soldiers-amount-donation" /><br />
-               <label>Amount of territories</label><input type="text" id="territories-amount-donation" /><br />
-               <input type="checkbox" id="cb-no-population-donation" /><label>Without population donation</label><br />
-               <button id="btn-donation">Don</button>
+            <div id="trades-content" class="content-set">
+               <div class="trade-row">
+                  <div class="legend" id="donor-legend"><span>Donor</span></div>
+                  <div class="legend" id="receiver-legend"><span>Receiver</span></div>
+                  <div class="filled-cell"></div>
+               </div>
+               <div class="trade-row">
+                  <div class="selector clickable" id="donor-selector"><span>Donor</span></div>
+                  <div class="selector clickable" id="receiver-selector"><span>Receiver</span></div>
+                  <div class="button-cell clickable" id="swap-button-trade"><img src="ressources/icons/switch.png">
+                  </div>
+               </div>
+               <div class="custom-row">
+                  <div class="custom-cell"><img class="label-img" src="ressources/icons/people-24.png" />Population
+                  </div>
+                  <div class="custom-cell input-cell" id="trade-population"><input type="text"
+                        id="population-amount-trade" />
+                  </div>
+               </div>
+               <div class="custom-row">
+                  <div class="custom-cell"><img class="label-img" src="ressources/icons/soldier-24.png" />Army</div>
+                  <div class="custom-cell input-cell" id="trade-army"><input type="text" id="soldiers-amount-trade" />
+                  </div>
+               </div>
+               <div class="custom-row">
+                  <div class="custom-cell cell-trade-territories"><span><img class="label-img"
+                           src="ressources/icons/territory-24.png" />Territories</span><img class="clickable"
+                        title="Press to also give the population bound to these territories"
+                        src="ressources/icons/link-24.png" id="icon-link-pop"></div>
+                  <div class="custom-cell input-cell" id="trade-territories"><input type="text"
+                        id="territories-amount-trade" />
+                  </div>
+               </div>
+               <div id="confirm-trade" class="outline-text">CONFIRM</div>
             </div>
          </div>
          <div id="buttons" class="commands-set">

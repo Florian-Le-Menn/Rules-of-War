@@ -1,4 +1,4 @@
-# Rules-of-War (v0.1)
+# Rules-of-War
 
 This application is a game master tool for playing a conquest game with multiple players. 
 
@@ -32,7 +32,7 @@ The available informations are :
 
 To start a battle between two countries, you have to click on the "Attacker" button in the right panel and then on the attacking country on the map, then do the same with the "Defender" button, write the percentage of force the attacker uses, and finally click on the 'Attack' button just below. 
 
-### Donations
+### Trades
 
 Diplomacy between players might lead to trade decisions. As the game master you can make a player give a set amount of territories, population and/or army. When giving territories, the player can decide to also give the population living on these territories or not. You can check the checkbox depending on the case.
 Sometimes a war between more than 2 countries can result in weird borders between the winners, you can correct that by making a country give X territories to the other without donation of population, and vice versa.

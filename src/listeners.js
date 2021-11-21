@@ -4,12 +4,12 @@
  * Give the selected territory from the donor to the receiver
  */
 let eventGiveTerritory = function () {
-    $(this).attr('style', 'fill:'.concat(Country.countryList[$("#btn-country-receiver").text()].color));
+    $(this).attr('style', 'fill:'.concat(Country.countryList[$("#receiver-selector").text()].color));
     nbToGive--;
     if (nbToGive == 0) {
+        $("#notice").hide();
         $("#notice").text("");
-        $("#btn-country-donator").prop("disabled", false);
-        $("#btn-country-receiver").prop("disabled", false);
+        unlockSelectors();
         // Cancelling the listener
         $(".givable").unbind("click.givable");
         $(".givable").each(function () {
@@ -19,7 +19,8 @@ let eventGiveTerritory = function () {
         $(this).unbind("click.givable");
         $(this).removeClass("givable");
         let territories = nbToGive == 1 ? " territory" : " territories";
-        $("#notice").text("Select " + nbToGive + territories + " from " + $("#btn-country-donator").text() + " to give to " + $("#btn-country-receiver").text());
+        $("#notice").show();
+        $("#notice").text("Select " + nbToGive + territories + " from " + $("#donor-selector").text() + " to give to " + $("#receiver-selector").text());
     }
 };
 
@@ -97,11 +98,13 @@ function listeners() {
 
     /**
      * Add or remove the 'pressed' class on the 'selectors' div (used as buttons)
+     * Only when the selectors are unlocked
      * 
      * useful to change style depending on the state of the button and actually select it
      */
     $(".selector").each(function () {
         $(this).click(function () {
+            if (!$(this).hasClass("clickable")) return;
             if ($(this).hasClass("pressed")) {
                 $(this).removeClass("pressed");
             } else {
@@ -180,8 +183,11 @@ function listeners() {
                 setAttacker(country);
             } else if (selectorPressed == "defender-selector") {
                 setDefender(country);
+            } else if (selectorPressed == "donor-selector") {
+                setDonor(country);
+            } else if (selectorPressed == "receiver-selector") {
+                setReceiver(country);
             }
-            $("button.pressed").text(country.name);
         });
     });
 
@@ -195,24 +201,26 @@ function listeners() {
     });
 
     /**
-     * Listener on the donation button
+     * Listener on the trade button
      * 
      * TODO check if the calculs are good
      */
-    $("#btn-donation").click(function () {
-        let donator = Country.countryList[$("#btn-country-donator").text()];
-        let receiver = Country.countryList[$("#btn-country-receiver").text()];
-        let amountArmy = parseInt($("#soldiers-amount-donation").val());
-        let amountPop = parseInt($("#population-amount-donation").val());
-        let amountTerritory = parseInt($("#territories-amount-donation").val());
+    $("#confirm-trade").click(function () {
+        let donor = Country.countryList[$("#donor-selector").text()];
+        let receiver = Country.countryList[$("#receiver-selector").text()];
+        let amountArmy = parseInt($("#soldiers-amount-trade").val());
+        let amountPop = parseInt($("#population-amount-trade").val());
+        let amountTerritory = parseInt($("#territories-amount-trade").val());
+        clearTradeRequest();
+
         if (amountArmy > 0) {
-            donator.donateArmy(receiver, amountArmy);
+            donor.donateArmy(receiver, amountArmy);
         }
         if (amountTerritory > 0) {
-            donator.donateTerritory(receiver, amountTerritory);
+            donor.donateTerritory(receiver, amountTerritory);
         }
         if (amountPop > 0) {
-            donator.donatePopulation(receiver, amountPop);
+            donor.donatePopulation(receiver, amountPop);
         }
         refreshInformations();
     });
@@ -264,19 +272,20 @@ function listeners() {
     /**
      * Invert the attacker and the defender (useful if wrongly picked or if two players are fighting)
      */
-    $("#swap-button").click(function () {
+    $("#swap-button-battle").click(function () {
         let atk = getAttacker();
         let def = getDefender();
         setAttacker(def);
         setDefender(atk);
     });
+    $("#swap-button-trade").click(function () {
+        let donor = getDonor();
+        let receiver = getReceiver();
+        setDonor(receiver);
+        setReceiver(donor);
+    });
 
-    /**
-     * Invert the donor and the receiver (useful if a wrong donation has been made)
-     */
-    $("#btn-invert-donation").click(function () {
-        let tmp = $("#btn-country-donator").text();
-        $("#btn-country-donator").text($("#btn-country-receiver").text());
-        $("#btn-country-receiver").text(tmp);
+    $("#icon-link-pop").click(function () {
+        $(this).toggleClass("pressed");
     });
 }
