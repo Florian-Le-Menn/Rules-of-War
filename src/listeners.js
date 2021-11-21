@@ -130,7 +130,8 @@ function listeners() {
      * 
      */
     $("#btn-save").click(function () {
-        download(Country.saveList(), "load.js", "");
+        downloadTxt(Country.serializeState(), "saveRulesOfWar.txt");
+        //download(Country.saveList(), "load.js", "");
     });
 
     /**
@@ -139,28 +140,28 @@ function listeners() {
      * TODO Fix it (broken)
      */
     $("#btn-download-image").click(function () {
-
-        //load a svg snippet in the canvas with id = 'drawingArea'
-        canvg(document.getElementById('canvas'), $("#svg").wrap("<p/>").parent().html());
-        $("#svg").unwrap();
-        // the canvas calls to output a png
-        let canvas = document.getElementById("canvas");
-        let img = canvas.toDataURL("image/png");
-        downloadCanvas();
+        svgToPng($("#svg").prop("outerHTML"), null, "#ccf6ff").then(function (value) {
+            download(value, "turn-" + Country.turn + ".png");
+        });
     });
-
-
-    function downloadImage() {
-        document.getElementById('download').click();
-    }
-
-    function downloadCanvas() {
-        let a = document.getElementById('download');
-        let b = a.href;
-        a.href = document.getElementsByTagName('canvas')[0].toDataURL();
-        downloadImage();
-        a.href = b;
-    }
+    $("#download-statistics").click(function () {
+        buildGraph("population", true);
+        setTimeout(function () {
+            download(chart.toBase64Image(), "populations-turn-" + Country.turn + ".png");
+            setTimeout(function () {
+                buildGraph("army", true);
+                setTimeout(function () {
+                    download(chart.toBase64Image(), "armies-turn-" + Country.turn + ".png");
+                    setTimeout(function () {
+                        buildGraph("territory", true);
+                        setTimeout(function () {
+                            download(chart.toBase64Image(), "territories-turn-" + Country.turn + ".png");
+                        }, 500);
+                    }, 500);
+                }, 500);
+            }, 500);
+        }, 500);
+    });
 
     /**
      * Listener on the territories
@@ -202,12 +203,16 @@ function listeners() {
         let donator = Country.countryList[$("#btn-country-donator").text()];
         let receiver = Country.countryList[$("#btn-country-receiver").text()];
         let amountArmy = parseInt($("#soldiers-amount-donation").val());
+        let amountPop = parseInt($("#population-amount-donation").val());
         let amountTerritory = parseInt($("#territories-amount-donation").val());
         if (amountArmy > 0) {
             donator.donateArmy(receiver, amountArmy);
         }
         if (amountTerritory > 0) {
             donator.donateTerritory(receiver, amountTerritory);
+        }
+        if (amountPop > 0) {
+            donator.donatePopulation(receiver, amountPop);
         }
         refreshInformations();
     });

@@ -3405,6 +3405,7 @@
                <button id="btn-country-donator" class="selector">[Donor]</button>
                <button id="btn-country-receiver" class="selector">[Receiver]</button>
                <button id="btn-invert-donation">Swap</button><br />
+               <label>Amount of population</label><input type="text" id="population-amount-donation" /><br />
                <label>Amount of soldiers</label><input type="text" id="soldiers-amount-donation" /><br />
                <label>Amount of territories</label><input type="text" id="territories-amount-donation" /><br />
                <input type="checkbox" id="cb-no-population-donation" /><label>Without population donation</label><br />
@@ -3414,16 +3415,19 @@
          <div id="buttons" class="commands-set">
             <p id="pConsole"></p>
             <button id="btn-end-turn">End of turn</button>
-            <button id="btn-save" disabled>Save</button>
-            <button id="btn-download-image" disabled>Download PNG</button>
+            <button id="btn-save">Save</button>
+            <button id="btn-download-image">Download PNG</button>
             <button id="copy-clipboard-players-informations">Players Informations</button>
             <button id="copy-clipboard-general-informations">General Informations</button>
+            <button id="download-statistics">Statistics</button>
+            <input type="checkbox" id="cb-auto-dl-img" /><label>Auto DL map</label><br />
+            <input type="checkbox" id="cb-auto-dl-stats" /><label>Auto DL stats</label><br />
          </div>
       </div>
    </div>
-   <a href="" hidden download="map.png" id="download"></a>
-
-   <canvas height="1024" hidden id="canvas"></canvas>
+   <div>
+      <canvas id="chart" hidden></canvas>
+   </div>
 
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
@@ -3437,15 +3441,12 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"></script>
 
-   <!-- Necessaire pour le téléchargement d'image
-   Ne fonctionne plus. TODO mettre à jour
-   <script type="text/javascript" src="http://canvg.github.io/canvg/rgbcolor.js"></script>
-   <script type="text/javascript" src="http://canvg.github.io/canvg/StackBlur.js"></script>
-   <script type="text/javascript" src="http://canvg.github.io/canvg/canvg.js"></script>
-    ----------------------------------------- -->
+   <!-- Chart plugin -->
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
    <!-- Custom JS files-->
    <script src="src/countryClass.js"></script>
+   <script src="src/graphs.js"></script>
    <script src="src/getters-setters.js"></script>
    <script src="src/back-end.js"></script>
    <script src="src/core-ui.js"></script>

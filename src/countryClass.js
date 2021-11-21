@@ -23,6 +23,9 @@ class Country {
 		this.turn = turn;
 		this.player = player;
 		this.iso = iso;
+		this.populationHistory = [this.population];
+		this.armyHistory = [this.army];
+		this.territoryHistory = [this.territory];
 		if (color == null) {
 			this.color = (Country.nbCountries * 400000).toString(16);
 			while (this.color.length < 6) {
@@ -44,8 +47,17 @@ class Country {
 	 */
 	donateArmy(receiver, amount) {
 		amount = Math.min(this.army, amount);
-		this.army -= don;
-		receiver.army += don;
+		this.army -= amount;
+		receiver.army += amount;
+	}
+	/**
+	 * @param {Country} receiver : Receiver country
+	 * @param {int} nb : Amount of population to give to {receiver} country
+	 */
+	donatePopulation(receiver, amount) {
+		amount = Math.min(this.population, amount);
+		this.population -= amount;
+		receiver.population += amount;
 	}
 
 	/**
@@ -91,7 +103,7 @@ class Country {
 	 * @returns {String} Country informations (army size, population size, and number of territories)
 	 */
 	toString() {
-		return (this.name + " [Armée = " + this.army + ", Population = " + this.population + ", Territoires = " + this.territory + "]\n");
+		return (this.name + " [Armée = " + FormatNumberDisplayable(this.army) + ", Population = " + FormatNumberDisplayable(this.population) + ", Territoires = " + this.territory + "]\n");
 	}
 
 	/**
@@ -158,8 +170,11 @@ class Country {
 		enemy.territory -= gain_ter;
 
 		console.log("gain_ter : " + gain_ter + "\ngain_pop : " + gain_pop + "\nloses : " + loses + "\nen_loses : " + en_loses);
-		if (enemy.territory == 0 && enemy.player == true) {
+		/*if (enemy.territory == 0 && enemy.player == true) {
 			enemy.player = false;
+		}*/
+		if (enemy.territory == 0) {
+			enemy.army = 0;
 		}
 		return gain_ter;
 	}
@@ -301,6 +316,30 @@ class Country {
 
 		Country.selected = Country.countryList['France'];
 
+	}
+
+	static serializeState() {
+		let serialization = Country.turn + "";
+		for (let countryName in Country.countryList) {
+			let country = Country.countryList[countryName];
+			let played = "npc";
+			if (country.player) {
+				played = "player";
+			}
+			serialization += "#" + countryName + "," + country.population + "," + country.army + "," + country.territory + "," + played;
+		}
+		serialization += "###";
+		for (let i in ALL_TERRITORIES) {
+			let ter = ALL_TERRITORIES[i];
+			try {
+				let fillPos = $(ter).attr("style").indexOf("fill:");
+				let country = Country.findByColor($(ter).attr("style").substring(fillPos + 5, fillPos + 12));
+				serialization += "#" + $(ter).attr("id") + ":" + country.name;
+			} catch (e) {
+
+			}
+		}
+		return serialization;
 	}
 
 	/**
