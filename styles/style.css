@@ -291,3 +291,41 @@ input{
 #battle-button{
 	height:65px;
 }
+#pop-up-container{
+    position: absolute;
+	height:100vh;
+	width:100vw;
+	top:0;
+	background-color:rgba(0,0,0,0.4);
+}
+#pop-up-container>div{
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    position: absolute;
+    top: 10%;
+    padding: 20px;
+    border-radius: 10px;
+    height: 80%;
+}
+#pop-up-container>div>div{
+	height:100%;
+    overflow-x: scroll;
+}
+.help-btn{
+    background: linear-gradient(160deg, rgb(110 173 226), rgb(20 110 200));
+	border-radius:5px;
+	display:inline-flex;
+    padding: 5px;
+    border: solid 1px rgb(10 55 100);
+    color: white;
+}
+.help-btns{
+	display:flex;
+	justify-content: space-between;
+}
+.help-page{
+	display:flex;
+	flex-direction: column;
+	justify-content: space-between;
+}

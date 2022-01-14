@@ -1,6 +1,7 @@
 <html>
 
 <head>
+   <title>BleakSpring</title>
    <meta charset="utf-8" />
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -13,16 +14,17 @@
 <body>
    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="navbar-header">
-         <a id="btn-refresh" class="navbar-brand" href="index.html"><img src="ressources/icons/swords.png"
-               class="d-inline-block align-top" alt="logo" /> Rules of War</a>
+
+         <span id="btn-refresh" class="navbar-brand" href="index.html"><img src="ressources/icons/swords.png"
+               class="d-inline-block align-top" alt="logo" /> BleakSpring</span>
       </div>
       <div class="collapse navbar-collapse" id="navbarNav">
          <ul class="navbar-nav">
-            <li class="nav-item active">
-               <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+               <span class="nav-link clickable" id="credits-link">Credits</span>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="credits.html">Credits</a>
+               <span class="nav-link clickable" id="help-link">Help</span>
             </li>
          </ul>
       </div>
@@ -3452,34 +3454,298 @@
          </div>
       </div>
    </div>
-   <div>
-      <canvas id="chart" hidden></canvas>
-   </div>
 
-   <!-- jQuery -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
-   <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+   <div id="pop-up-container" hidden>
+      <div id="help-pop-up" hidden>
+         <div id="help-1" class="help-page">
+            <div>
+               <p><i>Tip : You can zoom in or zoom out (with ctrl+'+' or ctrl+'-') according to your preferences. Give
+                     it a try</i>
+               </p>
 
-   <!-- Javascript plugin for bootstrap -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"></script>
+               <p>This web application is a game master tool for playing a conquest game with multiple players. </p>
 
-   <!-- Chart plugin -->
-   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+               <h2>Principle of the game</h2>
 
-   <!-- Custom JS files-->
-   <script src="src/countryClass.js"></script>
-   <script src="src/graphs.js"></script>
-   <script src="src/getters-setters.js"></script>
-   <script src="src/back-end.js"></script>
-   <script src="src/core-ui.js"></script>
-   <script src="src/side-ui.js"></script>
-   <script src="src/listeners.js"></script>
-   <script src="src/main.js"></script>
+               <p>This is a turn based game where every players will share the same turns. New players can join any time
+                  and
+                  chose a country that is not taken yet.
+                  Each turn, every player will be able to attack other countries by deploying a percentage of his army.
+                  For
+                  example they can chose to attack a single country with 100% of their forces or attack 2 countries with
+                  50/50%, 70/30%, etc... or dividing it between even more enemies. The game will prevent any player from
+                  using
+                  a total of more than 100% per turn.
+                  When an attack is done, both countries armies will fight and suffer army and population losses, but
+                  the
+                  winner of the battle will also steal some territories and population from the other one.</p>
+
+               <p>When every player made their move, the game master can decide to end the turn. At the end of the turn,
+                  every
+                  country will automatically gain some army depending on their population size, and gain some population
+                  depending on their population and territory size. The new turn then beggins and every player can
+                  attack
+                  again.</p>
+
+               <p>When an attack is made, the game considers automatically the attacker to be a player from now on.</p>
+
+               <p>Beware, when a non-player country is attacked, it will keep attacking back each turn untill it is
+                  completely
+                  defeated.</p>
+
+               <p>It is up to the game master to decide if a country can only attack border countries, oversea countries
+                  or
+                  any
+                  country. (simulating air deployment) For more flexibility, the game will allow everything.</p>
+            </div>
+            <div class="help-btns">
+               <div class="placeholder"></div>
+               <div class="help-btn clickable" id="btn-help1-2">2/3 -></div>
+            </div>
+         </div>
+         <div id="help-2" class="help-page" hidden>
+            <div>
+               <h2>Tool guide for the game master</h2>
+
+               <h3>Countries informations</h3>
+
+               <p>After clicking on any territory of a country on the map, its informations are shown in the right
+                  panel.
+                  The available informations are :
+               <ul>
+                  <li>Population size</li>
+                  <li>Army size</li>
+                  <li>Number of terriotories</li>
+                  <li>Wether the country is controlled by a player or by the computer</li>
+               </ul>
+               </p>
+
+               <h3>Battles</h3>
+
+               <p>To start a battle between two countries, you have to click on the "Attacker" button in the right panel
+                  and then on the attacking country on the map, then do the same with the "Defender" button, write the
+                  percentage of force the attacker uses, and finally click on the 'Attack' button just below. </p>
+               <p>You can also select the countries by click-and-dragging from the attacking country to the defending
+                  country on the map</p>
+
+               <h3>Trades</h3>
+
+               <p>Diplomacy between players might lead to trade decisions. As the game master you can make a player give
+                  a set amount of territories, population and/or army. When giving territories, the player can decide to
+                  also give the population living on these territories or not. You can check the 'link' box depending on
+                  the case.
+                  Sometimes a war between more than 2 countries can result in weird borders between the winners, you can
+                  correct that by making a country give X territories to the other without donation of population, and
+                  vice versa.
+                  When giving territories from a country to another you will have to select the specific territories one
+                  by one.</p>
+            </div>
+
+            <div class="help-btns">
+               <div class="help-btn clickable" id="btn-help2-1">
+                  <- 1/3</div>
+                     <div class="help-btn clickable" id="btn-help2-3">3/3 -></div>
+               </div>
+            </div>
+            <div id="help-3" class="help-page" hidden>
+               <div>
+                  <h2>Other</h2>
+
+                  <p>The "Player informations" and "General informations" buttons copies in the clipboard informations
+                     about
+                     respectively every played countries and all countries.</p>
+
+                  <p>The "Statistics" button downloads a graph displaying the evolution of every played countries since
+                     the beggining of the game. You can check "Auto DL stats" to download the graph automatically after
+                     each turn</p>
+
+                  <p>The "Download PNG" button downloads an image of the map in its current state. You can check "Auto
+                     DL map" to download the image automatically after each turn.</p>
+
+                  <p>The "Save" button downloads a save file of the current game state. The loading module is not
+                     implemented yet.</p>
+
+                  <h2>In development</h2>
+                  <ul>
+                     <li>Loading module</li>
+                     <li>Enchancement of the 'other' buttons design</li>
+                     <li>Possibility to switch between french country names and english country names</li>
+                     <li>Currently it is easy to navigate the map with a touch pad, but not so much with a mouse, so
+                        I'll work on that soon</li>
+                  </ul>
+               </div>
+               <div class="help-btns">
+                  <div class="help-btn clickable" id="btn-help3-2">
+                     <- 2/3</div>
+                        <div class="help-btn clickable" id="btn-close-help">
+                           Close</div>
+                  </div>
+               </div>
+            </div>
+
+            <div id="credits-pop-up" hidden>
+               <div>
+                  <h4 style="text-align: center;">© Florian Le Menn 2022</h4>
+                  <p>List of ressources used :</p>
+                  <table class="table table-striped">
+                     <thead>
+                        <tr>
+                           <th scope="col">Ressource</th>
+                           <th scope="col">Attribution</th>
+                           <th scope="col">Link</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <th scope="row"><img src="ressources/icons/swords.png"></th>
+                           <td>
+                              <div>Icon made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a
+                                    href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+                           </td>
+                           <td><a href="https://www.flaticon.com/free-icon/swords_297806">Link to the ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row"><img src="ressources/icons/notebook.png"> </th>
+                           <td>
+                              <div>Icon made by <a href="https://www.flaticon.com/authors/jesus-chavarria"
+                                    title="Jesus Chavarria">Jesus Chavarria</a> from <a href="https://www.flaticon.com/"
+                                    title="Flaticon">www.flaticon.com</a></div>
+                           </td>
+                           <td><a href="https://www.flaticon.com/premium-icon/notebook_2157750?term=notebook">Link to
+                                 the
+                                 ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row"><img src="ressources/icons/donation.png"> </th>
+                           <td>
+                              <div>Icon made by <a href="https://www.flaticon.com/authors/freepik"
+                                    title="Freepik">Freepik</a>
+                                 from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+                           </td>
+                           <td><a href="https://www.flaticon.com/premium-icon/donation_1303168">Link to the
+                                 ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row"><img src="ressources/icons/switch.png"> </th>
+                           <td>
+                              <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a
+                                    href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+                           </td>
+                           <td><a href="https://www.flaticon.com/free-icon/switch_466154">Link to the
+                                 ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row"><img src="ressources/icons/computer-24.png"> </th>
+                           <td>
+                              <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a
+                                    href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+                           </td>
+                           <td><a href="https://www.flaticon.com/premium-icon/settings_3067513">Link to the
+                                 ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row"><img src="ressources/icons/player-24.png"> </th>
+                           <td>
+                              <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a
+                                    href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+                           </td>
+                           <td><a href="https://www.flaticon.com/free-icon/vlogger_6135569">Link to the
+                                 ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row"><img src="ressources/icons/people-24.png"> </th>
+                           <td>
+                              <div>Icons made by <a href="https://www.flaticon.com/authors/vitaly-gorbachev"
+                                    title="Vitaly Gorbachev">Vitaly Gorbachev</a> from <a
+                                    href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+                           </td>
+                           <td><a href="https://www.flaticon.com/premium-icon/people_3369157">Link to the
+                                 ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row"><img src="ressources/icons/soldier-24.png"> </th>
+                           <td>
+                              <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a
+                                    href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+                           </td>
+                           <td><a href="https://www.flaticon.com/premium-icon/soldier_122456">Link to the
+                                 ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row"><img src="ressources/icons/territory-24.png"> </th>
+                           <td>
+                              <div>Icons made by <a href="https://www.flaticon.com/authors/moonde"
+                                    title="Moon.de">Moon.de</a>
+                                 from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+                           </td>
+                           <td><a href="https://www.flaticon.com/premium-icon/territory_4816995">Link to the
+                                 ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row"><img src="ressources/icons/link-24.png"> </th>
+                           <td>
+                              <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a
+                                    href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+                           </td>
+                           <td><a href="https://www.flaticon.com/premium-icon/link_2129111">Link to the
+                                 ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row"><img src="ressources/images/brown-papyrus-paper.jpg" height=32> </th>
+                           <td>
+                              <a href="https://www.freepik.com/photos/background">Background photo created by
+                                 rawpixel.com
+                                 -
+                                 www.freepik.com</a>
+                           </td>
+                           <td><a href="https://www.freepik.com/free-photo/brown-papyrus-paper_2765776.htm">Link to the
+                                 ressource</a></td>
+                        </tr>
+                        <tr>
+                           <th scope="row">Country flags</th>
+                           <td>
+                              <div>Flag list by <a href="https://flagpedia.net/">Flagpedia</a>
+                                 based on <a
+                                    href="https://commons.wikimedia.org/wiki/Category:SVG_flags_by_country">vector
+                                    files from Wikipedia Commons</a></div>
+                           </td>
+                           <td><a href="https://flagpedia.net/download">Link to the
+                                 ressource</a></td>
+                        </tr>
+                     </tbody>
+                  </table>
+
+               </div>
+            </div>
+         </div>
+         <div>
+            <canvas id="chart" hidden></canvas>
+         </div>
+
+         <!-- jQuery -->
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+         <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+         <!-- Javascript plugin for bootstrap -->
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+         <!-- Chart plugin -->
+         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+         <!-- Custom JS files-->
+         <script src="src/countryClass.js"></script>
+         <script src="src/graphs.js"></script>
+         <script src="src/getters-setters.js"></script>
+         <script src="src/back-end.js"></script>
+         <script src="src/core-ui.js"></script>
+         <script src="src/side-ui.js"></script>
+         <script src="src/listeners.js"></script>
+         <script src="src/main.js"></script>
 </body>
 
 </html>
